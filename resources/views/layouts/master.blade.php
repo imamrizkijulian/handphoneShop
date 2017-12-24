@@ -24,6 +24,9 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{{ url('dist/css/skins/_all-skins.min.css') }}">
 
+  <link href="{{ url('datatable/css/jquery.dataTables.css') }}" rel="stylesheet"> 
+  <link href="{{ url('datatable/css/dataTables.bootstrap.css') }}" rel="stylesheet"
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -33,7 +36,7 @@
 
   <!-- Google Font -->
   <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        href="{{ url('css/font.css') }}">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -67,6 +70,11 @@
             <i class="fa fa-th"></i> <span>Barang</span>
           </a>
         </li>
+        <li>
+          <a href="{{ route('suplier.index')}}">
+            <i class="fa fa-user"></i> <span>Suplier</span>
+          </a>
+        </li>
         
     </section>
     <!-- /.sidebar -->
@@ -85,7 +93,7 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
-<script src="{{ url('bower_components/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ url('js/jquery-3.2.1.min.js') }}"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{{ url('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <!-- FastClick -->
@@ -102,8 +110,11 @@
 <!-- ChartJS -->
 <script src="{{ url('bower_components/Chart.js/Chart.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{ url('dist/js/pages/dashboard2.js') }}"></script>
+<!-- <script src="{{ url('dist/js/pages/dashboard2.js') }}"></script> -->
 <!-- AdminLTE for demo purposes -->
 <script src="{{ url('dist/js/demo.js') }}"></script>
+<script src="{{ url('datatable/js/jquery.dataTables.min.js') }}"></script> 
+<script src="{{ url('datatable/js/dataTables.bootstrap.min.js') }}"></script> 
+@yield('scripts') 
 </body>
 </html>

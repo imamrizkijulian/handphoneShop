@@ -22,4 +22,5 @@ Route::get('/backend', 'HomeController@index')->name('index');
 Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function () 
 	{ 
 		Route::resource('barang', 'BarangController');
+		Route::resource('suplier', 'SuplierController');
 	});

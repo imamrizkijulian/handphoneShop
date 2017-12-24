@@ -178,7 +178,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Laratrust\LaratrustServiceProvider::class,
-        Yajra\DataTables\DataTablesServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
 
     ],
 
@@ -230,7 +231,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Laratrust' => Laratrust\LaratrustFacade::class,
-        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
 
     ],
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Suplier;
 use Illuminate\Http\Request;
+// use Yajra\Datatables\Html\Builder; 
+use Yajra\Datatables\Datatables;
 
 class SuplierController extends Controller
 {
@@ -12,9 +14,36 @@ class SuplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() 
     {
-        //
+
+        $suplier = Suplier::latest()->paginate(7);
+        return view('suplier.index', compact('suplier'));
+
+       //  if ($request->ajax()) 
+       //      { 
+       //          $supliers = Suplier::all();
+
+       //          return Datatables::of($supliers)
+       //          ->addColumn('action', function($book){ 
+       //              return view('datatable._action', [ 
+       //                  'model' => $suplier,
+       //                  'form_url' => route('suplier.destroy', $suplier->id), 
+       //                  'edit_url' => route('suplier.edit', $suplier->id), 
+       //                  'confirm_message' => 'Yakin mau menghapus ' . $suplier->title . '?' 
+       //              ]);
+       //          })->make(true); 
+       //      }
+       // $html = $htmlBuilder
+       //      ->addColumn(['data' => 'kode_suplier', 'name'=>'kode_suplier', 'title'=>'Kode Suplier'])
+       //      ->addColumn(['data' => 'nama_suplier', 'name'=>'nama_suplier', 'title'=>'Nama Suplier'])
+       //      ->addColumn(['data' => 'alamat', 'name'=>'alamat', 'title'=>'Alamat'])
+       //      ->addColumn(['data' => 'telepon', 'name'=>'telepon', 'title'=>'Telepon'])
+       //      ->addColumn(['data' => 'opsional', 'name'=>'opsional', 'title'=>'Opsional'])
+       //      ->addColumn(['data' => 'action', 'name'=>'action', 'title'=>'Actions', 'orderable'=>false, 'searchable'=>false]);
+
+
+       //  return view('suplier.index')->with(compact('html'));
     }
 
     /**
@@ -24,7 +53,7 @@ class SuplierController extends Controller
      */
     public function create()
     {
-        //
+        return view('suplier.index');
     }
 
     /**
@@ -35,7 +64,15 @@ class SuplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'kode_suplier'   => 'required',
+            'nama_suplier'   => 'required',
+            'alamat'         => 'required',
+            'telepon'        => 'required',
+            'opsional'       => 'required',
+        ]);
+        Suplier::create($request->only('kode_suplier','nama_suplier','alamat','telepon','opsional'));
+        return redirect()->route('suplier.index');
     }
 
     /**
@@ -55,9 +92,10 @@ class SuplierController extends Controller
      * @param  \App\Suplier  $suplier
      * @return \Illuminate\Http\Response
      */
-    public function edit(Suplier $suplier)
+    public function edit($id)
     {
-        //
+        $suplier = Suplier::find($id);
+        return view('suplier.edit', compact('suplier'));
     }
 
     /**
@@ -67,9 +105,17 @@ class SuplierController extends Controller
      * @param  \App\Suplier  $suplier
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Suplier $suplier)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'kode_suplier'   => 'required',
+            'nama_suplier'   => 'required',
+            'alamat'         => 'required',
+            'telepon'        => 'required',
+            'opsional'       => 'required',
+        ]);
+        Suplier::find($id)->update($request->all());
+        return redirect()->route('suplier.index')->with('success','Success Edit Post');
     }
 
     /**
@@ -78,8 +124,9 @@ class SuplierController extends Controller
      * @param  \App\Suplier  $suplier
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Suplier $suplier)
+    public function destroy($id)
     {
-        //
+        Suplier::find($id)->delete();
+        return redirect()->route('suplier.index')->with('success','Success Delete Post');
     }
 }

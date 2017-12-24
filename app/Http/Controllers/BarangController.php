@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Barang;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Html\Builder; 
+use Yajra\Datatables\Datatables;
 
 class BarangController extends Controller
 {
@@ -12,9 +14,28 @@ class BarangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, Builder $htmlBuilder) 
     {
-        return view('barang.index');
+        if ($request->ajax()) 
+            { 
+                $barangs = Barang::all();
+
+                return Datatables::of($barangs) 
+                ->addColumn('action', function($barang){ 
+                    return view('datatable._action', [ 
+                        'model' => $barang, 
+                        'form_url' => route('barang.destroy', $book->id), 
+                        'edit_url' => route('barang.edit', $book->id), 
+                        'confirm_message' => 'Yakin mau menghapus ' . $book->title . '?' 
+                    ]);
+                })->make(true); 
+            }
+       $html = $htmlBuilder
+            ->addColumn(['data' => 'nama_barang', 'name'=>'nama_barang', 'title'=>'Nama Barang'])
+            ->addColumn(['data' => 'action', 'name'=>'action', 'title'=>'', 'orderable'=>false, 'searchable'=>false]);
+
+
+        return view('barang.index')->with(compact('html'));
     }
 
     /**
