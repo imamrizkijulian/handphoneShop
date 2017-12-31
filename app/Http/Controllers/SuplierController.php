@@ -17,7 +17,7 @@ class SuplierController extends Controller
     public function index() 
     {
 
-        $suplier = Suplier::latest()->paginate(7);
+        $suplier = Suplier::latest()->paginate(10);
         return view('suplier.index', compact('suplier'));
 
        //  if ($request->ajax()) 
@@ -72,7 +72,7 @@ class SuplierController extends Controller
             'opsional'       => 'required',
         ]);
         Suplier::create($request->only('kode_suplier','nama_suplier','alamat','telepon','opsional'));
-        return redirect()->route('suplier.index');
+        return redirect()->route('suplier.index')->with('success','Berhasil membuat data suplier');
     }
 
     /**
@@ -115,7 +115,7 @@ class SuplierController extends Controller
             'opsional'       => 'required',
         ]);
         Suplier::find($id)->update($request->all());
-        return redirect()->route('suplier.index')->with('success','Success Edit Post');
+        return redirect()->route('suplier.index')->with('success','Berhasil mengubah data suplier');
     }
 
     /**
@@ -127,6 +127,6 @@ class SuplierController extends Controller
     public function destroy($id)
     {
         Suplier::find($id)->delete();
-        return redirect()->route('suplier.index')->with('success','Success Delete Post');
+        return redirect()->route('suplier.index')->with('success','Berhasil menghapus data Suplier');
     }
 }

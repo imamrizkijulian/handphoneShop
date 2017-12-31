@@ -18,22 +18,77 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box">
+          <div class="box box-primary">
+            <center><h2>Buat Data Barang</h2></center><hr>
+            {!! Form::open(['url' => route('barang.store'), 'method' => 'post','files'=>'true','class'=>'form-horizontal']) !!}
+            @include('barang.forms')
+            <!-- <div class="form-group">
+            Select image to upload:
+                <input type="file" name="gambar" id="fileToUpload" class="form-control">
+                <input type="submit" value="Upload Image" name="submit">
+            </div> -->
+            {!! Form::close() !!}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    @if($message = Session::get('success'))
+      <div class="alert alert-success">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <h3>{{ $message }}</h3>
+      </div>
+    @endif
+
     <!-- Main content -->
     <div class="row">
       <div class="col-md-12">
         <div class="box">
           <div class="box-body">
-            <div>
-              <p> <a class="btn btn-primary" href="{{ url('/admin/barang/create') }}">Tambah</a> </p>
-            </div>
-          {!! $html->table(['class'=>'table-striped']) !!} 
+            <h3>Data Barang</h3>
+            <div class="box-body">
+                <table class="table table-bordered">
+                <tr class="success">
+                  <th>Kode Barang</th>
+                  <th>Nama Barang</th>
+                  <th>Harga Jual</th>
+                  <th>Harga Beli</th>
+                  <th>Stok</th>
+                  <th>Satuan</th>
+                  <th>Status</th>
+                  <th>Nama Supplier</th>
+                  <th width="200px">Actions</th>
+                </tr>
+
+                @foreach ($barang as $data)
+                <tr>
+                  <td>{{ $data->kode_barang }}</td>
+                  <td>{{ $data->nama_barang }}</td>
+                  <td>{{ $data->harga_jual }}</td>
+                  <td>{{ $data->harga_beli }}</td>
+                  <td>{{ $data->stok }}</td>
+                  <td>{{ $data->satuan }}</td>
+                  <td>{{ $data->status }}</td>
+                  <td>{{ $data->suplier->nama_suplier }}</td>
+                  <td>
+                    <a class="btn btn-xs btn-success" href="{{ route('barang.show', $data->id) }}">Detail</a>
+                    <a class="btn btn-xs btn-primary" href="{{ route('barang.edit', $data->id) }}">Edit</a>
+
+                    {!! Form::open(['method' => 'DELETE', 'route'=>['barang.destroy', $data->id], 'style'=>'display:inline']) !!}
+                    {!! Form::submit('Delete',['class'=> 'btn btn-xs btn-danger']) !!}
+                    {!! Form::close() !!}
+                  </td>
+                </tr>
+                @endforeach
+              </table>
+              {!! $barang->render() !!}
+        </div>
           </div>
         </div>
       </div>
     </div> 
     <!-- /.content -->
-@endsection
-
-@section('scripts')
-{!! $html->scripts() !!}
 @endsection
